@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html dir="ltr" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>@ViewBag.Title</title>
+
+    <!-- ==== Favicon ==== -->
+    <link rel="icon" type="image/png" href="/images/fav128x128.png" sizes="128x128">
+    <link rel="icon" type="image/png" href="/images/fav64x64.png" sizes="64x64">
+    <link rel="icon" type="image/png" href="/images/fav32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/fav16x16.png" sizes="16x16">
+
+    <!-- ==== Google Font ==== -->
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700%7CMontserrat:400,500">-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600&display=swap&subset=cyrillic" rel="stylesheet">
+    <!-- ==== Stylesheets ==== -->
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/lib/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/css/main.min.css?v=1.0.3">
+    <script src="/lib/jquery/dist/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+    <div class="wrapper">
+        <header class="navbar navbar-fixed">
+            <div class="d-none d-sm-block">
+                <div class="navbar--header">
+                    <a href="/" class="logo zoom ">
+                        <img src="/images/signinLogo.png" alt="Курс АКТ">
+                    </a>
+                </div>
+            </div>
+            <div class="d-block d-sm-none">
+                <div class="navbar--header">
+                    <a href="/" class="logo logo-sm zoom ">
+                        <img src="/images/signinLogoXS.png" alt="Курс АКТ">
+                    </a>
+                </div>
+            </div>
+            <div class="d-block d-sm-none ml-auto">
+            </div>
+            <div class="d-none d-sm-block d-md-none ml-auto">
+            </div>
+      @if (User.IsInRole("pnr") || User.IsInRole("administrator"))
+                {
+                    <div class="navbar--nav ml-5">
+                        <ul class="nav">
+                            <li class="nav-item" id="reportForImportCount--container">
+                                <a href="/ReportImport/Reports" class="nav-link" title="Импорт электронных отчётов">
+                                    <i class="fa fa-file-import navbar--icon"></i>
+                                    <div class="badge-sidebar--container">
+                                        <span class="badge badge-pill badge-navbar text-white bg-orange" id="reportForImportCount"></span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+
+                <div class="navbar--search ml-auto mr-5">
+                    <form action="/Search">
+                        <input type="search" id="search" name="query" class="form-control" placeholder="Поиск" required="">
+                        <button  class="btn btn-link"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+
+            <div class="navbar--nav">
+                <ul class="nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown nav--user">
+                            <a href="#" class="nav-link" data-toggle="dropdown">
+                                <img src="http://aiiscue.kursufa.ru/account/GetAvatar?hash==@{<text>@User.Identity.Name.GetHashCode()</text>}&size=64&key=2ec8466f0e50235fbb97306dbec850302dfaa6ae" class="rounded-circle border border-warning">
+                                <span class="badge badge-pill badge-navbar text-white bg-orange unread-indicator" ata-toggle="tooltip" data-placement="bottom" title="Кол-во непрочитанных комментариев">5</span>
+                                <span>@User.Identity.Name</span>
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="/Profile"><i class="fa fa-user"></i>Профиль</a></li>
+                                <li><a href="/UnreadComments" class="d-flex"><i class="fa fa-comment align-self-center"></i>Комментарии <span class="badge badge-secondary ml-2 align-self-center unread-indicator">0</span></a></li>
+                                <li class="dropdown-divider"></li>
+                                <li><a href="/Account/Logout"><i class="fa fa-power-off"></i>Выйти</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown nav--user">
+                            <a href="/Account/Login" class="nav-link">
+                                <span>Войти</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="main--container">
+                <section class="main--content">
+                    @RenderBody()
+                </section>
+                <footer class="main--footer">
+                    <p>&copy; 2018 - @DateTime.Now.Year - Отдел разработки ООО "КУРС"</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                if (xmlHttp.responseText === "0") {
+                    $('#reportForImportCount--container').hide();
+                }
+                $('#reportForImportCount').html(xmlHttp.responseText);
+            }
+        }
+        xmlHttp.open("GET", "/ReportImport/GetReportCount", true);
+        xmlHttp.send(null);
+    })
+</script>
+
+@* Sweet Alerts 2 ok err*@
+<script>
+    function ok(text) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        Toast.fire({
+            type: 'success',
+            title: text
+        })
+    }
+    function err(text) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        Toast.fire({
+            type: 'error',
+            title: text
+        })
+    }
+</script>
+<script>
+    // Getting uread comments count
+    $(document).ready(function () {
+        //Hiding all indicator on document ready
+        $('.unread-indicator').hide();
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                if (xmlHttp.responseText === "0") {
+                    $('.unread-indicator').hide();
+                }
+                else {
+                    $('.unread-indicator').html(xmlHttp.responseText);
+                    $('.unread-indicator').show();
+                }
+                
+            }
+        }
+        xmlHttp.open("GET", "/Comments/GetUnreadCommentsCount?name=@User.Identity.Name", true);
+        xmlHttp.send(null);
+    })
+
+    // Tooltip for unread comments indicator
+    $(function () {
+        $('.unread-indicator').tooltip()
+    })
+</script>
+<script src="/js/main.min.js"></script>

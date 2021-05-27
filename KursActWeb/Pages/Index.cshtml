@@ -1,0 +1,51 @@
+﻿@page
+@model KursActWeb.Pages.IndexModel
+@{
+    ViewData["Title"] = "Главная страница";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .view-cascade {
+        width: 94%;
+        margin-left: 3%;
+        margin-top: -1.25rem;
+        border-radius: 15px;
+        height: 70px;
+    }
+
+    .count-rptp {
+        font-size: 3.5rem;
+        font-weight: 300;
+        line-height: 1.2;
+        margin: 0;
+        color: black;
+    }
+
+    .count-point {
+        font-size: 1.8rem;
+        font-weight: 300;
+        line-height: 1.2;
+        margin: 0;
+        color: black;
+    }
+</style>
+
+<!-- Карточки с контрактами -->
+<div class="d-flex flex-wrap">
+    @{
+        foreach (var item in Model.ContractsList)
+        {
+            @await Html.PartialAsync("_ContractCard", item)
+        }
+    }
+</div>
+<!-- Карточки с контрактами -->
+@*@await Html.PartialAsync("_contractsCards", Model)*@
+
+<!-- Всплывающие подсказки -->
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+

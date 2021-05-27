@@ -1,0 +1,84 @@
+﻿@model KursActWeb.Models.LoginModel
+
+<!DOCTYPE html>
+<html dir="ltr" lang="ru" class="no-outlines">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- ==== Title ==== -->
+    <title>Вход в учётную запись - Курс Акт</title>
+
+    <!-- ==== Favicon ==== -->
+    <link rel="icon" type="image/png" href="/images/fav128x128.png" sizes="128x128">
+    <link rel="icon" type="image/png" href="/images/fav64x64.png" sizes="64x64">
+    <link rel="icon" type="image/png" href="/images/fav32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/fav16x16.png" sizes="16x16">
+
+    <!-- ==== Google Font ==== -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700%7CMontserrat:400,500">
+
+    <!-- ==== Stylesheets ==== -->
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/main.min.css">
+    <link rel="stylesheet" href="/lib/fontawesome/css/fontawesome.min.css" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="m-account-w">
+            <div class="m-account">
+                <div class="row no-gutters">
+                    <div class="col-md-12 align-self-center">
+                        <div class="m-account--form-w">
+                            <div class="m-account--form">
+                                <div class="logo">
+                                    <img src="/images/logo_symb_white.png" alt="Курс Акт">
+                                </div>
+                                <form class="form-signin" action="/Account/Login" asp-antiforgery="true" method="post">
+                                    <label class="m-account--title">Вход в учётную запись</label>
+
+                                    @if (ViewData["Error"] != null)
+                                    {
+                                        <div class="alert alert-danger" role="alert">@ViewData["Error"]</div>
+                                    }
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <input type="text" id="inputLogin" name="Login" class="form-control" placeholder="Логин" required="" autofocus="">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <i class="fas fa-key"></i>
+                                            </div>
+                                            <input type="password" id="inputPassword" name="Password" class="form-control" placeholder="Пароль" required="">
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center mt-5">
+                                        <a href="#" class="btn-link" hidden>Забыли пароль?</a>
+                                        <button type="submit" class="btn btn-rounded btn-warning btn-lg">Войти</button>
+                                    </div>
+
+                                    <div class="m-account--footer">
+                                        <p>&copy; 2018 - @DateTime.Now.Year ООО "Курс"</p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>

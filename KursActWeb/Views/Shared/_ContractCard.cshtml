@@ -1,0 +1,37 @@
+﻿@using KursActWeb.ViewModels
+@model ContractCardViewModel
+
+<div id="card_@Model.Id" class="card shadow m-5" style="width: 18rem; border-radius: 7px;">
+    <a href="/ContractPage/@Model.Id" class="shadow zoom view-cascade @Model.ColorClass">
+        <div class="text-center text-light pt-3"><h2>@Model.Name</h2></div>
+    </a>
+    <div class="card-body pt-3">
+        <div class="card-text">@Model.Description</div>
+        <hr />
+        <div class="d-flex justify-content-around">
+            <div></div>
+            <div class=" align-self-end">
+                <div style="font-size:11px">ОБЪЕКТЫ</div>
+                <p class="count-rptp">@Model.CountSubstations</p>
+            </div>
+            <p class="count-rptp align-self-end">/</p>
+            <div class="align-self-end">
+                <div style="font-size:11px">ТОЧКИ</div>
+                <p class="count-point pb-2">@Model.CountRegPoints</p>
+            </div>
+            <div></div>
+        </div>
+        <hr />
+        <!-- Progress -->
+        <div class="progress md-progress" style=" height: 20px;" id="progr">
+            <div class="progress-bar bg-success 6" role="progressbar" style="width: @Model.PercentAscueOk%;"
+                data-toggle="tooltip" data-placement="top" title="Принято в ПО АСКУЭ: @Model.CountAscueOk">@Model.CountAscueOk</div>
+            <div class="progress-bar bg-primary" role="progressbar" style="width: @Model.PercentAscueChecked%;"
+                data-toggle="tooltip" data-placement="top" title="Проверено для ПО АСКУЭ: @Model.CountAscueChecked">@Model.CountAscueChecked</div>
+            <div class="progress-bar bg-warning" role="progressbar" style="width: @Model.PercentLinkOk%;"
+                data-toggle="tooltip" data-placement="top" title="Связь проверена: @Model.CountLinkOk">@Model.CountLinkOk</div>
+            <div class="progress-bar bg-secondary" role="progressbar" style="width: @Model.PercentOther%;"
+                 data-toggle="tooltip" data-placement="top" title="Остальные: @Model.CountOther">@Model.CountOther</div>
+            </div>
+    </div>
+</div>
