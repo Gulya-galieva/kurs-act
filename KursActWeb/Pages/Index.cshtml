@@ -36,7 +36,7 @@
     @{
         foreach (var item in Model.ContractsList)
         {
-            @await Html.PartialAsync("_ContractCard", item)
+            @await Html.PartialAsync("_ContractCard", item);
         }
     }
 </div>
